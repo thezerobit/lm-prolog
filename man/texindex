@@ -1,0 +1,106 @@
+prolog << 'END_OF_FILE.'
+compile(user),
+texindex('manual.cp','manual.cps'),
+texindex('manual.fn','manual.fns'),
+texindex('manual.vr','manual.vrs'),
+texindex('manual.kw','manual.kws'),
+texindex('manual.wo','manual.wos'),
+texindex('manual.pr','manual.prs').
+
+:-public texindex/2, get_one/1.
+
+texindex(In,Out) :-
+   see(In), tell(Out), nofileerrors,
+   get_index(D), !, seen,
+   put_index(void,D,[]), !, told.
+
+put_index(_) --> !.
+put_index(Topic) -->
+   put_various(Topic,Topic1),
+   put_index(Topic1).
+
+put_various(Key0,Key1) -->
+   [entry(Key1,Topic,void,Pagelist)], !,
+   put_initial(Key0,Key1),
+   put_entry(Topic,Pagelist).
+put_various(Key0,Key1) -->
+   [entry(Key1,Topic,Subtopic,Pagelist)],
+   put_initial(Key0,Key1),
+   put_primary(Topic),
+   put_secondary(Subtopic,Pagelist),
+   put_secondaries(Key1).
+
+put_secondaries(Topic) -->
+   [entry(_,Topic,Subtopic,Pagelist)], !,
+   put_secondary(Subtopic,Pagelist),
+   put_secondaries(Topic).
+put_secondaries(_) --> [].
+
+put_initial([X|_],[X|_]) --> !.
+put_initial(_,[X|_]) -->
+   {write('\initial '), put_item([X]), nl}.
+
+put_entry(X,L) -->
+   {write('\entry '), put_item(X), put_list(L), nl}.
+
+put_primary(X) -->
+   {write('\primary '), put_item(X), nl}.
+
+put_secondary(X,L) -->
+   {write('\secondary '), put_item(X), put_list(L), nl}.
+
+put_item(X) :- atomic(X), !, put(X).
+put_item(dollar(X)) :- put("$"), !, put_subitem("$",X).
+put_item(X) :- put("{"), put_subitem("}",X).
+
+put_subitem([End],[]) :- put(End), !.
+put_subitem(End,[X|Xs]) :- put_item(X), !, put_subitem(End,Xs).
+
+put_list(X) :- put("{"), put_sublist(X).
+
+put_sublist([X]) :- !, write(X), put("}").
+put_sublist([X|Xs]) :- write(X), put(","), put_sublist(Xs).
+
+get_one(entry(Key,Topic,Subtopic,Page)) :-
+   get0(92), !,
+   (get_line(92,L),
+    parse_line(Key,Page,Topic,Subtopic,L,[]);
+    get_one(entry(Key,Topic,Subtopic,Page))).
+
+parse_line(Key,Page,Topic,Subtopic) -->
+   keyitem(Key), numitem(Page), item(Topic), line_end(Subtopic).
+
+get_index(D) :-
+   setof(entry(Key,Topic,Subtopic,Pagelist),
+         setof(Page,get_one(entry(Key,Topic,Subtopic,Page)),Pagelist),
+	 D).
+
+line_end(void) --> [10], !.
+line_end(X) --> item(X), [10].
+
+get_line(32,L) :- get0(C1), !, get_line_1(C1,L).
+get_line(_,L) :-  get0(C1), !, get_line(C1,L).
+
+get_line_1(10,[10]) :- !.
+get_line_1(C,[C|Cs]) :- get0(C1), !, get_line_1(C1,Cs).
+
+keyitem(X) --> item(X1), {X1=X; flushcolon(X1,X)}.
+
+flushcolon([58|L],L) :- !.
+flushcolon([_|L],Ls) :- flushcolon(L,Ls).
+
+item(X) --> "{", !, subitem("}",X).
+item(dollar(X)) --> "$", subitem("$",X).
+
+subitem([End],[]) --> [End], !.
+subitem(End,[X|Xs]) --> item(X), !, subitem(End,Xs).
+subitem(End,[C|Cs]) --> [C], subitem(End,Cs).
+
+numitem(X) --> "{", subnumitem(0,X).
+
+subnumitem(X,X) --> "}", !.
+subnumitem(I0,I) --> [C], {I1 is 10*I0+C-"0"}, subnumitem(I1,I).
+
+end_of_file.
+
+END_OF_FILE.

@@ -1,0 +1,62 @@
+			      LM-PROLOG
+				  by
+		      Ken Kahn and Mats Carlsson
+
+LM-Prolog is an implementation of Prolog for the MIT family of Lisp
+Machines.  The Prolog dialect differs quite a bit from the Edinburgh
+Prolog family of dialects both in terms of syntax and built-in
+predicates.  The bulk of the code was written in 1983, when the
+authors were at Uppsala University.  The work was supported by the
+Swedish National Board for Technical Development (STU).
+
+Ken Kahn wrote two precursors to the present implementation, one in
+Pure Lisp and one based on flavors and message passing and implemented
+libraries of built-in predicates and demo programs.  The present
+implementation compiles Prolog predicates to Lisp functions, using
+success continuations to emulate the Prolog control structure.  Mats
+Carlsson implemented the compiler and runtime support including
+microcode extensions for LMI CADRs and Lambdas.
+
+This code is provided as is, without any warranty or support.
+It has run on an LMI Lambda Release 3.0 of December 1986.
+Earlier versions ran on all Symbolics and LMI models, but
+it is unlikely that this version does.
+
+Although the implementation language - ZetaLisp - is similar to Common
+Lisp, porting the system to Common Lisp would be a major project since
+extensive use was made of ZetaLisp features such as locatives,
+invisible pointers, and flavors.
+
+The code is free, and can be used and distributed provided:
+
+- this file is not removed,
+
+- any research work that uses this code, or ideas from this code, should
+  acknowledge this work.
+
+This file was written in December 1989.
+Send any questions to:
+
+kahn@parc.xerox.com (Ken Kahn)
+matsc@sics.se (Mats Carlsson)
+
+Bibliography:
+
+K.M. Kahn, "A Grammar Kit in Prolog", in New Horizons in Educational
+Computing ed. Yazdani M., Ellis Horwood Ltd., Chichester, U.K., 1983,
+and in Proc. AISB Easter Conference on Artificial Intelligence and
+Education, April 1983, and UPMAIL Technical Report 14C, revised
+February 1985.
+
+K.M. Kahn, "Unique Features of LISP Machine Prolog", UPMAIL Technical
+Report 15B, revised February 1985.
+
+K.M. Kahn, "A Primitive for the Control of Logic Programs", Proc.
+1984 Symposium on Logic Programming, Atlantic City, and UPMAIL
+Technical Report 16, February 1983.
+
+M. Carlsson, "LM-Prolog - The Language and its Implementation", UPMAIL
+Technical Report 30, October 1984.
+
+UPMAIL TR's are available from: Librarian, UPMAIL, PO Box 520, S-75120
+UPPSALA, Sweden.

@@ -1,0 +1,7 @@
+;;; -*- Mode:LISP; Package:USER; Base:10; Readtable:Common-Lisp; Patch-File:T -*-
+;;; Written 27-Nov-86 15:59:53 by MC at site Customer Site
+;;; while running on Lambda C from band 1
+;;; with System 110.232, Local-File 68.7, FILE-Server 18.4, Unix-Interface 9.1, Tape 6.39, Tiger 24.0, KERMIT 31.3, ZMail 65.14, Lambda-Diag 7.17, TCP-Kernel 41.2, TCP-User 63.1, TCP-Server 46.0, Site Data Editor 3.4, System Revision Level 3.205, Object Lisp 5.0, Experimental L-Prolog 3.0, microcode 1, SDU Boot Tape 3.13, SDU ROM 8.
+
+
+("LM-Prolog" 1) 

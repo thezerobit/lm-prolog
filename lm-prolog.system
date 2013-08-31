@@ -1,0 +1,13 @@
+;;; -*- Mode: Lisp; Package: User; Base: 10. ; -*-
+;;; Written in 1983 by Ken Kahn and Mats Carlsson.
+
+;;The following is of course site dependent.
+
+(fs:set-logical-pathname-host "LMP"
+  :physical-host "LAMA" ; the actual computer where the sources are stored.
+  ;; A list of pairs, which match components of logical pathname and
+  ;; translate them to physical pathnames.
+  :translations '(("SYSTEM;" #-symbolics "<RELEASE-3.LM-PROLOG>" #+symbolics ">lm-prolog>")
+		  ("*;" #-symbolics "<RELEASE-3.LM-PROLOG.*>" #+symbolics ">lm-prolog>*>")))
+
+(load "LMP: SYSTEM; LOAD")
